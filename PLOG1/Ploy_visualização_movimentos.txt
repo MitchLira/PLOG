@@ -1,0 +1,20 @@
+﻿%Ploy
+
+Movimento:
+	->getMove(peca,nPlaces,sentido): 
+				predicado responsável pelo movimento de uma peça, em algum dos sentido permitidos pela peça,
+					 e o número de casas a movimentar-se(este que é igual ao numero de sentidos
+					 que cada peca pode, exceto o comandante, que tem 4 sentidos possiveis
+					 mas so s epode deslocar uma unidade de cada vez).
+
+	->getRotation(peca,dir): 
+				predicado no qual a peça vai rodar para a esquerda ou direita uma unidade.
+				apenas as peças shield podem ter uma jogada de direção a seguir a uma jogada de movimento.
+				
+	->gameOver(board,winner):
+				em caso de jogo terminado, coloca em winner o vencedor.
+				
+Visualização:
+	Miriam, aqui basta ires ao ficheiro Ploy_display e veres as funções(regras no fim do ficheiro) 
+		e escreveres tipo o que fazem, caso tenhas duvidas ou nao saibas o que fazem as funções
+		pergunta :) 
