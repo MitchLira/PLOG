@@ -24,7 +24,7 @@ board([
 %%%%%%%%%%			/\ /\
 %%%%%%%%%%			\/_\/
 
-%translates dos simbolos
+%translates dos simbolos das peças
 translate(1,'+').
 translate(2,'*').
 translate(0,' ').
