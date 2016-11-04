@@ -20,10 +20,6 @@ board([
 		[[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0]]
 ]).
 
-%%%%%%%%%%			 ___
-%%%%%%%%%%			/\ /\
-%%%%%%%%%%			\/_\/
-
 %translates dos simbolos das peças
 translate(1,'+').
 translate(2,'*').
@@ -112,12 +108,3 @@ display_peca([E1|Es]) :-
 		write(P),
 		display_peca(Es).
 display_peca([]) :- write('').
-
-%
-%
-%	Falta arranjar maneira de fazer display dos numeros como na batalha naval.
-%	e fazer o resto do projeto
-%
-%
-%
-%
