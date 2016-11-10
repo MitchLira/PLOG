@@ -51,14 +51,8 @@ valida_direcao(Board,Xantes,Yantes, Orientacao, X, Y, NcasasEscolhidas) :-
 valida_orientacao(Board, X, Y, Ori):-
 							get_casa(Board, X, Y, Casa),
 							nth0(Ori, Casa, Bit),
-							Bit == 2.
-
-valida_orientacao(Board, X, Y, Ori):-
-							get_casa(Board,X,Y,Casa),
-							nth0(Ori, Casa, Bit),
-							Bit == 1.
-
-valida_orientacao(Board, X, Y, Ori).
+							((Bit == 1);
+								(Bit == 2)).
 
 %	conforme a orientacao dada retorna as coordenadas para a qual a peça se vai mexer
 get_novas_coordenadas(N, X, Y, NewX, NewY, Ncasas) :-
