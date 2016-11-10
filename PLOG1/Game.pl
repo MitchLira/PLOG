@@ -12,7 +12,11 @@
 game:-
 							board(Board),
 							displayBoard(Board),
-							read_coordenadas_casa(X,Y),
+							
+							repeat,
+											once(read_coordenadas_casa(X,Y)),
+							valida_coordenada(X,Y),
+
 							numero_casas(Board, X, Y, NcasasPossiveis),
 							read_orientacao(Ori, NcasasPossiveis, NcasasEscolhidas),
 							mover_peca(Board, X, Y, Ori, NovoBoard, NcasasEscolhidas),
