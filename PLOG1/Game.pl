@@ -18,15 +18,14 @@ ploy :-
 									once(retract(board(Board))),
 									once(displayBoard(Board)),
 									once(retract(player(Player))),
-									once(joga(ModoJogo, Player, Board, IdPeca, NovoBoard)),
-									%once(displayBoard(NovoBoard)),
+									once(jogadorHxH(ModoJogo, Player, Board, IdPeca, NovoBoard)),
 									once(atualiza_jogador(Player)),
 									once(assert(board(NovoBoard))),
 					fim_deJogo(IdPeca),
-					displayBoard(NovoBoard).
-					%menu_mensagemVitoria(Player).
+					displayBoard(NovoBoard),
+					menu_mensagemVitoria(Player).
 
-joga(ModoJogo, Player, Board, IdPeca, NovoBoard) :-
+jogadorHxH(ModoJogo, Player, Board, IdPeca, NovoBoard) :-
 					menu_turnoJogador(Player), nl,
 					read_utilizador(Board, X, Y, Player, TipoMove),
 					faz_jogada(Board, X, Y, TipoMove, Player, NovoBoard, IdPeca).
@@ -63,6 +62,7 @@ atualiza_jogador(Player) :-
 					(Player =:= 2, assert(player(1)))).
 
 fim_deJogo(IdPeca) :-
+					write(IdPeca),nl,
 					convertComando(IdPeca, Peca),
-					write(IdPeca),nl,write(Peca),nl,
+					write(Peca),nl,
 					Peca \= 4.

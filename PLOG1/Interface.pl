@@ -134,3 +134,4 @@ convertOrientacao('s', 8).
 convertOrientacao('se', 9).
 
 convertComando('c', 4).
+convertComando(_, 1).
