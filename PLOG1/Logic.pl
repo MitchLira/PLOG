@@ -1,18 +1,18 @@
 % 					Verifica se bit de orientação está ativo
-verificar_bitOrientacao(Board, X, Y, Ori, Player):-
-							get_bitPeca(Board, X, Y, Ori, Bit),
-							Bit == Player.
+verificar_bitOrientacao(Board, X, Y, Orientacao, Jogador):-
+							get_bitPeca(Board, X, Y, Orientacao, Bit),
+							Bit == Jogador.
 
 %========================================================================
 %========================	Movement	=====================================
 %========================================================================
 
 %						Predicado responsável por mover uma peça
-mover_peca(Board, Xantes, Yantes, Orientacao, Player, NovoBoard, NcasasEscolhidas) :-
+mover_peca(Board, Xantes, Yantes, Orientacao, Jogador, NovoBoard, NcasasEscolhidas) :-
 							get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NcasasEscolhidas),
 							valida_coordenada(X, Y),
 							get_casa(Board, X, Y, NovaCasa),
-							verifica_casaJogador(Board, X, Y, Orientacao, Player, NovaCasa),
+							verifica_casaJogador(Board, X, Y, Orientacao, Jogador, NovaCasa),
 							get_casa(Board, Xantes, Yantes, Peca), %	guardo a peca que quero mexer
 							set_board_casa(X, Y, Peca, Board, MoveBoard),	%	movo a peca
 							delete_board_casa(Xantes, Yantes, MoveBoard, NovoBoard). %	apago a casa onde a peca estava
@@ -27,20 +27,20 @@ valida_coordenada(X,Y) :-
 							0 is Y mod 2.
 
 % 					Verifica se a casa para onde se vai mover é vazia ou do adversário
-verifica_casaJogador(Board, X, Y, Orientacao, Player, NovaCasa) :-
+verifica_casaJogador(Board, X, Y, Orientacao, Jogador, NovaCasa) :-
 							valida_casaVazia(NovaCasa);
-							valida_jogador(Board, X, Y, Orientacao, Player).
+							valida_jogador(Board, X, Y, Orientacao, Jogador).
 
 %						Verfica se a casa está vazia
 valida_casaVazia(Casa):-
 							Casa=[_,0,0,0,0,0,0,0,0,0].
 
 %						Verifica se o bit da lista da peca e do jogador 1 ou 2 e esta ativo
-valida_jogador(Board, X, Y, Orientacao, Player):-
+valida_jogador(Board, X, Y, Orientacao, Jogador):-
 							get_bitPeca(Board, X, Y, Orientacao, Bit),
 							get_bitPeca(Board, X, Y, 0, Idjogador),
-							Bit \= Player,
-							Idjogador == Player.
+							Bit \= Jogador,
+							Idjogador == Jogador.
 
 %						Conforme a orientacao dada retorna as coordenadas para a qual a peça se vai mexer
 get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NumeroCasas) :- % , X, Y, NewX, NewY, Ncasas) :-
