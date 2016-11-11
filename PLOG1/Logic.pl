@@ -22,7 +22,7 @@ set_board_casa(X, Y, Casa, Board, NewBoard) :-
 							set_casa(Y, ResLinhaY, Board, NewBoard).
 
 mover_peca(Board, Xantes, Yantes, Orientacao, NovoBoard, NcasasEscolhidas) :-
-							valida_direcao(Board, Xantes, Yantes, Orientacao, X, Y, NcasasEscolhidas),
+							get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NcasasEscolhidas),
 							valida_coordenada(X, Y),
 							get_casa(Board,X, Y, CasaVazia), %guarda a casa para a qual a peça se vai mexer
 							valida_casa(CasaVazia), %verifico se essa casa esta vazia
@@ -37,15 +37,6 @@ valida_coordenada(X,Y) :-
 							Y=<16,
 							0 is X mod 2,
 							0 is Y mod 2.
-
-
-%verifica se a peça pode tem o indicador direcional conforme a direcao
-%se se verificar sucesso vai buscar as coordenadas para a qual a peça se vai mexer
-valida_direcao(Board,Xantes,Yantes, Orientacao, X, Y, NcasasEscolhidas) :-
-							valida_orientacao(Board,Xantes,Yantes,Orientacao),
-							get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NcasasEscolhidas).
-
-
 
 %verifica se o bit da lista da peca e do jogador 1 ou 2 e esta ativo
 valida_orientacao(Board, X, Y, Ori):-

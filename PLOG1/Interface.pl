@@ -1,4 +1,11 @@
-%Pr0jet0
+%		Predicado que vai ler os dois primeiros inputs (peça a mexer e tipo movimento)
+read_ComandosGeral(X, Y, TipoMove) :-
+							repeat,
+										once(read_coordenadas_casa(X,Y)),
+							valida_coordenada(X,Y),
+							repeat,
+										once(read_TipoMovimento(TipoMove)),
+							valida_Movimento(TipoMove).
 
 
 read_coordenadas_casa(X, Y) :-
@@ -10,11 +17,21 @@ read_coordenadas_casa(X, Y) :-
 							read(LetterY),
 							convertToLine(LetterY, Y).
 
-read_orientacao(Ori, NcasasPossiveis, NcasasEscolhidas) :-
+read_TipoMovimento(TipoMove) :-
+							write('what do you want to do? Rotation or Movement?\n'),
+							read(Move),
+							convertMove(Move, TipoMove).
+
+valida_Movimento(TipoMove) :-
+							TipoMove = 0; %Rotacao
+							TipoMove = 1.	%Movimento
+
+read_NumeroCasas(NcasasPossiveis, NcasasEscolhidas) :-
 							write('You have '), write(NcasasPossiveis), write(' possible moves\n'),
 							write('How many moves do you want to make?'),
-							read(NcasasEscolhidas),
-							valida_NcasasEscolhidas(NcasasPossiveis, NcasasEscolhidas),
+							read(NcasasEscolhidas).
+
+read_orientacao(Ori, NcasasPossiveis, NcasasEscolhidas) :-
 							write('Choose the direction of the movement: '), nl,
 							write('no\n'),
 							write('n\n'),
@@ -27,10 +44,24 @@ read_orientacao(Ori, NcasasPossiveis, NcasasEscolhidas) :-
 							read(Orientacao),
 							convertOrientacao(Orientacao, Ori).
 
-read_rotacao(Orientacao) :-
-							write('Choose the side you want to rotate the piece: e/d'),
-							read(OrientacaoL),
-							convertRotate(OrientacaoL,Orientacao).
+valida_orientacao(Orientacao) :-
+							Orientacao = 1; % NO
+							Orientacao = 2; % N
+							Orientacao = 3; % NE
+							Orientacao = 4; % O
+							Orientacao = 6; % E
+							Orientacao = 7; % SO
+							Orientacao = 8; % S
+							Orientacao = 9. % SE
+
+read_rotacao(Sentido) :-
+							write('Choose the side you want to rotate the piece: left/right'),
+							read(SentidoL),
+							convertRotate(SentidoL,Sentido).
+
+valida_rotacao(Sentido) :-
+							Sentido = 0;	% Esquerda
+							Sentido = 1.	% Direita
 
 convertToColumn('a',0).
 convertToColumn('b',2).
@@ -70,5 +101,8 @@ convertContadorDir('p1', 2).
 convertContadorDir('p2', 2).
 convertContadorDir('p3', 2).
 
-convertRotate('e',0).
-convertRotate('d',1).
+convertRotate('left',0).	% Esquerda
+convertRotate('right',1).	%	Direita
+
+convertMove('rotation', 0).
+convertMove('movement', 1).
