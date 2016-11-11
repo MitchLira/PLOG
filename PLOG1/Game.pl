@@ -11,7 +11,7 @@
 
 
 
-game:-		menu_inicial,
+game:-		
 					board(Board),
 					displayBoard(Board),
 					write('Choose the Player number: '),
@@ -20,7 +20,7 @@ game:-		menu_inicial,
 					read_utilizador(Board, X, Y, Player, TipoMove),
 
 					faz_jogada(Board, X, Y, TipoMove, Player, NovoBoard),
-					write('\33\[2J'),		% Comando geral de todos os sitemas que permite limpar o ecrã
+					clear_screen,clear_screen,		% Comando geral de todos os sitemas que permite limpar o ecrã
 					displayBoard(NovoBoard).
 
 faz_jogada(Board, X, Y, TipoMove, Player, NovoBoard) :-

@@ -20,7 +20,7 @@ read_coordenadas_casa(X, Y) :-
 							convertToLine(LetterY, Y).
 
 read_TipoJogada(TipoMove) :-
-							write('what do you want to do? Rotation or Movement?\n'),
+							write('what do you want to do? rotation or movement?\n'),
 							read(Move),
 							convertMove(Move, TipoMove).
 
@@ -74,13 +74,18 @@ valida_orientacao(Orientacao) :-
 							Orientacao = 8; % S
 							Orientacao = 9. % SE
 
+clear_screen :-
+							write('\33\[2J').						
+							
 %						Conversões das letras que identificam os jogadores
 convertPlayer(a, 1).
 convertPlayer(b, 2).
 
 %						Conversões do tipo de movimento escolhido
 convertMove('rotation', 0).
+convertMove('Rotation',0).
 convertMove('movement', 1).
+convertMove('Movement',1).
 
 %						Conversões das colunas, passamos de strings para números
 convertToColumn('a',0).
