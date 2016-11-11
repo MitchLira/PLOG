@@ -74,6 +74,15 @@ valida_orientacao(Orientacao) :-
 							Orientacao = 8; % S
 							Orientacao = 9. % SE
 
+%						Conversões das letras que identificam os jogadores
+convertPlayer(a, 1).
+convertPlayer(b, 2).
+
+%						Conversões do tipo de movimento escolhido
+convertMove('rotation', 0).
+convertMove('movement', 1).
+
+%						Conversões das colunas, passamos de strings para números
 convertToColumn('a',0).
 convertToColumn('b',2).
 convertToColumn('c',4).
@@ -84,6 +93,7 @@ convertToColumn('g',12).
 convertToColumn('h',14).
 convertToColumn('i',16).
 
+%						Conversões das linhas para os indices para aceder ao Board
 convertToLine(1,0).
 convertToLine(2,2).
 convertToLine(3,4).
@@ -94,15 +104,11 @@ convertToLine(7,12).
 convertToLine(8,14).
 convertToLine(9,16).
 
-convertOrientacao('no', 1).
-convertOrientacao('n', 2).
-convertOrientacao('ne', 3).
-convertOrientacao('o', 4).
-convertOrientacao('e', 6).
-convertOrientacao('so', 7).
-convertOrientacao('s', 8).
-convertOrientacao('se', 9).
+%						Conversões do sentido de rotação
+convertRotate('left',0).	% Esquerda
+convertRotate('right',1).	%	Direita
 
+%						Conversões do número de casas que uma peça se pode mover, consoante o seu Idpeca
 convertContadorDir('c', 1).
 convertContadorDir('s', 1).
 convertContadorDir('l1', 3).
@@ -112,11 +118,12 @@ convertContadorDir('p1', 2).
 convertContadorDir('p2', 2).
 convertContadorDir('p3', 2).
 
-convertRotate('left',0).	% Esquerda
-convertRotate('right',1).	%	Direita
-
-convertMove('rotation', 0).
-convertMove('movement', 1).
-
-convertPlayer(a, 1).
-convertPlayer(b, 2).
+%						Conversões das orientações dos movimentos
+convertOrientacao('no', 1).
+convertOrientacao('n', 2).
+convertOrientacao('ne', 3).
+convertOrientacao('o', 4).
+convertOrientacao('e', 6).
+convertOrientacao('so', 7).
+convertOrientacao('s', 8).
+convertOrientacao('se', 9).

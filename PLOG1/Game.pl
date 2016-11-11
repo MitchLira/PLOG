@@ -19,19 +19,21 @@ game:-
 					read_utilizador(Board, X, Y, Player, TipoMove),
 
 					faz_jogada(Board, X, Y, TipoMove, Player, NovoBoard),
-					%write('\33\[2J'),		% Comando geral de todos os sitemas que permite limpar o ecrã
+					write('\33\[2J'),		% Comando geral de todos os sitemas que permite limpar o ecrã
 					displayBoard(NovoBoard).
 
 faz_jogada(Board, X, Y, TipoMove, Player, NovoBoard) :-
 					((TipoMove =:= 0, jogada_rotacao(Board, X, Y, NovoBoard));
 					(TipoMove =:= 1, jogada_movimento(Board, X, Y, Player, NovoBoard))).
 
+%				Quando escolhe fazer rotação
 jogada_rotacao(Board, X, Y, NovoBoard) :-
 					repeat,	% Ciclo que vai ler o sentido em que quer rodar (Esquerda/Direita)
 								once(read_rotacao(Sentido)),
 					valida_rotacao(Sentido),
 					rodar_peca(Board, X, Y, Sentido, NovoBoard).
 
+%				Quando escolhe fazer um movimento
 jogada_movimento(Board, X, Y, Player, NovoBoard) :-
 					repeat,	% Ciclo para pedir quantas casas quer mexer
 								once(get_numeroCasas(Board, X, Y, NcasasPossiveis)),
