@@ -1,12 +1,14 @@
 %		Predicado que vai ler os dois primeiros inputs (peça a mexer e tipo movimento)
-read_ComandosGeral(X, Y, TipoMove) :-
+read_utilizador(Board, X, Y, Player, TipoMove) :-
+							% Ver se peça corresponde ao jogador
 							repeat,
 										once(read_coordenadas_casa(X,Y)),
-							valida_coordenada(X,Y),
+										once(get_bitPeca(Board, X, Y, 5, Bit)),
+										once(convertPlayer(Bit, P)),
+							valida_escolhaPeca(X, Y, Player, P),
 							repeat,
 										once(read_TipoMovimento(TipoMove)),
 							valida_Movimento(TipoMove).
-
 
 read_coordenadas_casa(X, Y) :-
 							write('Choose the piece'), nl,
@@ -22,9 +24,10 @@ read_TipoMovimento(TipoMove) :-
 							read(Move),
 							convertMove(Move, TipoMove).
 
-valida_Movimento(TipoMove) :-
-							TipoMove = 0; %Rotacao
-							TipoMove = 1.	%Movimento
+read_rotacao(Sentido) :-
+							write('Choose the side you want to rotate the piece: left/right'),
+							read(SentidoL),
+							convertRotate(SentidoL,Sentido).
 
 read_NumeroCasas(NcasasPossiveis, NcasasEscolhidas) :-
 							write('You have '), write(NcasasPossiveis), write(' possible moves\n'),
@@ -44,6 +47,23 @@ read_orientacao(Ori, NcasasPossiveis, NcasasEscolhidas) :-
 							read(Orientacao),
 							convertOrientacao(Orientacao, Ori).
 
+%		Predicado que verifica se a peça pertence ao jogador
+valida_escolhaPeca(X, Y, Player, Bit) :-
+							valida_coordenada(X, Y),
+							Player == Bit.
+
+valida_rotacao(Sentido) :-
+							Sentido = 0;	% Esquerda
+							Sentido = 1.	% Direita
+
+valida_Movimento(TipoMove) :-
+							TipoMove = 0; %Rotacao
+							TipoMove = 1.	%Movimento
+
+valida_NcasasUtilizador(NcasasPossiveis, NcasasEscolhidas) :-		% verifica se o numero de casas escolhido pode ser efetuado
+							NcasasEscolhidas >= 1,
+							NcasasEscolhidas =< NcasasPossiveis.
+
 valida_orientacao(Orientacao) :-
 							Orientacao = 1; % NO
 							Orientacao = 2; % N
@@ -53,15 +73,6 @@ valida_orientacao(Orientacao) :-
 							Orientacao = 7; % SO
 							Orientacao = 8; % S
 							Orientacao = 9. % SE
-
-read_rotacao(Sentido) :-
-							write('Choose the side you want to rotate the piece: left/right'),
-							read(SentidoL),
-							convertRotate(SentidoL,Sentido).
-
-valida_rotacao(Sentido) :-
-							Sentido = 0;	% Esquerda
-							Sentido = 1.	% Direita
 
 convertToColumn('a',0).
 convertToColumn('b',2).
@@ -106,3 +117,6 @@ convertRotate('right',1).	%	Direita
 
 convertMove('rotation', 0).
 convertMove('movement', 1).
+
+convertPlayer(a, 1).
+convertPlayer(b, 2).

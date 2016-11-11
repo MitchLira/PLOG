@@ -1,34 +1,12 @@
-get_casa(Board, Coluna, Linha, Casa) :-
-							nth0(Linha,Board, Line),
-							nth0(Coluna, Line, Casa).
-
-get_linha(Board, Linha, Res)  :-
-							nth0(Linha, Board, Res).
-
-set_casa(Indice, Elemento,Lista, NewLista):-
-							length(AuxL, Indice),
-							append(AuxL, [_|E], Lista),
-							append(AuxL, [Elemento| E], NewLista).
-
-valida_casa(Casa):-
-							Casa=[_,0,0,0,0,0,0,0,0,0].
-
-casa_com_peca(Casa):-
-							Casa\=[_,0,0,0,0,0,0,0,0,0].
-
-set_board_casa(X, Y, Casa, Board, NewBoard) :-
-							get_linha(Board, Y, LinhaY),
-							set_casa(X, Casa, LinhaY, ResLinhaY),
-							set_casa(Y, ResLinhaY, Board, NewBoard).
-
-mover_peca(Board, Xantes, Yantes, Orientacao, NovoBoard, NcasasEscolhidas) :-
+% Movimento
+mover_peca(Board, Xantes, Yantes, Orientacao, Player, NovoBoard, NcasasEscolhidas) :-
 							get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NcasasEscolhidas),
 							valida_coordenada(X, Y),
-							get_casa(Board,X, Y, CasaVazia), %guarda a casa para a qual a peça se vai mexer
-							valida_casa(CasaVazia), %verifico se essa casa esta vazia
-							get_casa(Board, Xantes, Yantes, Peca), %guardo a peca que quero mexer
-							set_board_casa(X,Y, Peca, Board, MoveBoard),%movo a peca
-							set_board_casa(Xantes, Yantes, CasaVazia, MoveBoard, NovoBoard). %apago a casa onde a peca estava
+							get_casa(Board, X, Y, NovaCasa),
+							verifica_casaJogador(Board, X, Y, Orientacao, Player, NovaCasa),
+							get_casa(Board, Xantes, Yantes, Peca), %	guardo a peca que quero mexer
+							set_board_casa(X, Y, Peca, Board, MoveBoard),	%	movo a peca
+							delete_board_casa(Xantes, Yantes, MoveBoard, NovoBoard). %	apago a casa onde a peca estava
 
 valida_coordenada(X,Y) :-
 							X>=0,
@@ -38,43 +16,41 @@ valida_coordenada(X,Y) :-
 							0 is X mod 2,
 							0 is Y mod 2.
 
-%verifica se o bit da lista da peca e do jogador 1 ou 2 e esta ativo
-valida_orientacao(Board, X, Y, Ori):-
-							get_casa(Board, X, Y, Casa),
-							nth0(Ori, Casa, Bit),
-							((Bit == 1);
-								(Bit == 2)).
+% Verifica se a casa para onde se vai mover é vazia ou do adversário
+verifica_casaJogador(Board, X, Y, Orientacao, Player, NovaCasa) :-
+							valida_casaVazia(NovaCasa);
+							valida_jogador(Board, X, Y, Orientacao, Player).
+
+valida_casaVazia(Casa):-
+							Casa=[_,0,0,0,0,0,0,0,0,0].
+
+%	verifica se o bit da lista da peca e do jogador 1 ou 2 e esta ativo
+valida_jogador(Board, X, Y, Orientacao, Player):-
+							get_bitPeca(Board, X, Y, Orientacao, Bit),
+							Bit \= Player.
 
 %	conforme a orientacao dada retorna as coordenadas para a qual a peça se vai mexer
-get_novas_coordenadas(N, X, Y, NewX, NewY, Ncasas) :-
-							((N =:= 1, NewX is X-(2*Ncasas), NewY is Y-(2*Ncasas));
-							(N =:= 2, NewX is X, NewY is Y-(2*Ncasas));
-							(N =:= 3, NewX is X+(2*Ncasas), NewY is Y-(2*Ncasas));
-							(N =:= 4, NewX is X-(2*Ncasas), NewY is Y);
-							(N =:= 6, NewX is X+(2*Ncasas), NewY is Y);
-							(N =:= 7, NewX is X-(2*Ncasas), NewY is Y+(2*Ncasas));
-							(N =:= 8, NewX is X, NewY is Y+(2*Ncasas));
-							(N =:= 0, NewX is X+(2*Ncasas), NewY is Y+(2*Ncasas))).
+get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NumeroCasas) :- % , X, Y, NewX, NewY, Ncasas) :-
+							((Orientacao =:= 1, X is Xantes-(2*NumeroCasas), Y is Yantes-(2*NumeroCasas));
+							(Orientacao =:= 2, X is Xantes, Y is Yantes-(2*NumeroCasas));
+							(Orientacao =:= 3, X is Xantes+(2*NumeroCasas), Y is Yantes-(2*NumeroCasas));
+							(Orientacao =:= 4, X is Xantes-(2*NumeroCasas), Y is Yantes);
+							(Orientacao =:= 6, X is Xantes+(2*NumeroCasas), Y is Yantes);
+							(Orientacao =:= 7, X is Xantes-(2*NumeroCasas), Y is Yantes+(2*NumeroCasas));
+							(Orientacao =:= 8, X is Xantes, Y is Yantes+(2*NumeroCasas));
+							(Orientacao =:= 0, X is Xantes+(2*NumeroCasas), Y is Yantes+(2*NumeroCasas))).
 
-numero_casas(Board, X, Y, Ncasas) :-				%ler o id_peca para de seguida calcular quantas casas pode andar com aquela peça
-							get_casa(Board, X, Y, Casa),
-							nth0(0, Casa, Idpeca),
+get_numeroCasas(Board, X, Y, Ncasas) :-				%ler o id_peca para de seguida calcular quantas casas pode andar com aquela peça
+							get_bitPeca(Board, X, Y, 0, Idpeca),
 							convertContadorDir(Idpeca, Ncasas).
 
+% Rotação
+rodar_peca(Board, X, Y, Orientacao, NovoBoard) :-
+							criar_peca(Orientacao, Board, X, Y, PecaNova),
+							set_board_casa(X, Y, PecaNova, Board, NovoBoard).
 
-valida_NcasasEscolhidas(NcasasPossiveis, NcasasEscolhidas) :-		% verifica se o numero de casas escolhido pode ser efetuado
-							NcasasEscolhidas >= 1,
-							NcasasEscolhidas =< NcasasPossiveis.
-
-%rotate
-rodar_peca(Board, X, Y, Orientacao,NovoBoard) :-
-							criar_peca(Orientacao,Board, X, Y,PecaNova),
-							get_casa(Board,X,Y,PecaRodar),
-							casa_com_peca(PecaRodar),
-							set_board_casa(X,Y,PecaNova, Board,NovoBoard).
-
-criar_peca(0, Board,X,Y, PecaRodada) :-
-							get_casa(Board, X, Y, Peca), %guardo a peca que quero rodar
+criar_peca(0, Board, X, Y, PecaRodada) :-
+							get_casa(Board, X, Y, Peca), %	guardo a peca que quero rodar
 							nth0(0,Peca,Idpeca),
 							nth0(5,Peca, Bit5),
 							nth0(2,Peca, Bit1),
@@ -97,8 +73,8 @@ criar_peca(0, Board,X,Y, PecaRodada) :-
 
 
 
-criar_peca(1,Board,X,Y, PecaRodada) :-
-							get_casa(Board, X, Y, Peca), %guardo a peca que quero rodar
+criar_peca(1, Board, X, Y, PecaRodada) :-
+							get_casa(Board, X, Y, Peca), %	guardo a peca que quero rodar
 							nth0(0,Peca,Idpeca),
 							nth0(5,Peca, Bit5),
 							nth0(4,Peca, Bit1),
@@ -119,3 +95,5 @@ criar_peca(1,Board,X,Y, PecaRodada) :-
 							append(List7, [Bit8], List8),
 							append(List8, [Bit9], List9),
 							append(List9, [Bit9], PecaRodada).
+
+%	Outras funções

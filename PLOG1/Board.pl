@@ -12,7 +12,7 @@ board([
 		[[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0]],
 		[[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0]],
 		[[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0]],
-		[[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0]],
+		[[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[c,2,0,2,0,b,0,2,0,2],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0]],
 		[[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0]],
 		[[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[s,0,2,0,0,b,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[s,0,2,0,0,b,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[s,0,2,0,0,b,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0],[t,0,0,0,t,t,t,0,0,0],[z,0,0,0,0,0,0,0,0,0]],
 		[[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0],[z,be,0,bd,bd,0,be],[z,0,bv,0,0,bv,0]],
@@ -54,7 +54,7 @@ display_bords_up :-
 							write('  a     b     c     d     e     f     g     h     i '),
 							nl, nl.
 
-							
+
 display_board([L1,L2|Ls], N) :-
 							write(' '),
 							display_line(L1, 'Top'),	% 	Display Parte de cima de cada peça
@@ -66,13 +66,13 @@ display_board([L1,L2|Ls], N) :-
 							display_line(L2, 'Top'),	% 	Display Parte de cima dos caminhos entre cada linha de peças
 							write(' '),
 							display_line(L2, 'Mid'),	% 	Display Parte de baixo dos caminhos entre cada linha de peças
-							N1 is N+1, 
+							N1 is N+1,
 							display_board(Ls, N1).
 
 
 
-							
-							
+
+
 display_board([L1|[]], N) :- 		% 	Chama esta função quando na recursividade quando é para fazer display da última linha
 							write(' '),
 							display_line(L1, 'Top'),	% 	Estas 3 linhas seguintes é como anteriormente
@@ -84,13 +84,13 @@ display_board([L1|[]], N) :- 		% 	Chama esta função quando na recursividade qu
 
 display_board([]) :- nl.		% 	Condição de paragem para o display
 
-		
+
 % Vamos apenas ignorar o primeiro elemento da lista
-display_line([], _Type) 	:- 		
+display_line([], _Type) 	:-
 							nl.
-							
+
 display_line([L1|Ls], 'Top') :-
-							L1 = [_|L2],  
+							L1 = [_|L2],
 							junta_pecas(L2,_Res),
 							display_line(Ls, 'Top').
 
@@ -122,8 +122,5 @@ display_peca([E1|Es]) :-
 							write(P),
 							display_peca(Es).
 
-display_peca([]) :- 
+display_peca([]) :-
 							write('').
-
-
-							
