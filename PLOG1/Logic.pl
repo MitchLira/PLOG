@@ -39,7 +39,6 @@ valida_casaVazia(Casa):-
 valida_jogador(Board, X, Y, Orientacao, Player):-
 							get_bitPeca(Board, X, Y, Orientacao, Bit),
 							get_bitPeca(Board, X, Y, 0, Idjogador),
-							nl, write(Bit), nl, write(Player), nl,
 							Bit \= Player,
 							Idjogador == Player.
 
@@ -52,7 +51,7 @@ get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NumeroCasas) :- % , X, Y
 							(Orientacao =:= 6, X is Xantes+(2*NumeroCasas), Y is Yantes);
 							(Orientacao =:= 7, X is Xantes-(2*NumeroCasas), Y is Yantes+(2*NumeroCasas));
 							(Orientacao =:= 8, X is Xantes, Y is Yantes+(2*NumeroCasas));
-							(Orientacao =:= 0, X is Xantes+(2*NumeroCasas), Y is Yantes+(2*NumeroCasas))).
+							(Orientacao =:= 9, X is Xantes+(2*NumeroCasas), Y is Yantes+(2*NumeroCasas))).
 
 % Ler o id_peca para de seguida calcular quantas casas pode andar com aquela peça
 get_numeroCasas(Board, X, Y, Ncasas) :-

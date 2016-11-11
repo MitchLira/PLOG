@@ -4,13 +4,14 @@
 :- include('Logic.pl').
 :- include('Interface.pl').
 :- include('Utils.pl').
+:- include('Menus.pl').
 
 
 % Implementação jogo
 
 
 
-game:-
+game:-		menu_inicial,
 					board(Board),
 					displayBoard(Board),
 					write('Choose the Player number: '),

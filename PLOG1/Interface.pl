@@ -7,7 +7,7 @@ read_utilizador(Board, X, Y, Player, TipoMove) :-
 										once(convertPlayer(Bit, P)),
 							valida_escolhaPeca(X, Y, Player, P),
 							repeat,
-										once(read_TipoMovimento(TipoMove)),
+										once(read_TipoJogada(TipoMove)),
 							valida_Movimento(TipoMove).
 
 read_coordenadas_casa(X, Y) :-
@@ -19,7 +19,7 @@ read_coordenadas_casa(X, Y) :-
 							read(LetterY),
 							convertToLine(LetterY, Y).
 
-read_TipoMovimento(TipoMove) :-
+read_TipoJogada(TipoMove) :-
 							write('what do you want to do? Rotation or Movement?\n'),
 							read(Move),
 							convertMove(Move, TipoMove).
