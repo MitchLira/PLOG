@@ -13,7 +13,8 @@
 
 ploy :-
 					menu_inicial(ModoJogo),
-					board(X),
+					player(DefaultPlayer),
+					board(Default),
 					repeat,
 									once(retract(board(Board))),
 									once(displayBoard(Board)),
@@ -25,7 +26,9 @@ ploy :-
 					displayBoard(NovoBoard),
 					menu_mensagemVitoria(Player),
 					retract(board(_)),
-					assert(board(X)).
+					assert(board(Default)),
+					retract(player(_)),
+					assert(player(DefaultPlayer)).
 
 
 jogadorHxH(ModoJogo, Player, Board, IdPeca, NovoBoard) :-
