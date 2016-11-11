@@ -23,7 +23,10 @@ ploy :-
 									once(assert(board(NovoBoard))),
 					fim_deJogo(IdPeca),
 					displayBoard(NovoBoard),
-					menu_mensagemVitoria(Player).
+					menu_mensagemVitoria(Player),
+					retract(board(_)),
+					assert(board(X)).
+
 
 jogadorHxH(ModoJogo, Player, Board, IdPeca, NovoBoard) :-
 					menu_turnoJogador(Player), nl,
