@@ -45,11 +45,11 @@ translate(b,'2').
 % DISPLAY DE UM TABULEIRO
 
 displayBoard(Board) :-
-							display_bords_up,
+							display_letras_colunas,
 							display_board(Board,1),
 							nl, nl, nl.
 
-display_bords_up :-
+display_letras_colunas :-
 							nl, nl, nl,
 							write('  a     b     c     d     e     f     g     h     i '),
 							nl, nl.
@@ -57,15 +57,15 @@ display_bords_up :-
 
 display_board([L1,L2|Ls], N) :-
 							write(' '),
-							display_line(L1, 'Top'),	% 	Display Parte de cima de cada peça
+							display_linha(L1, 'Top'),	% 	Display Parte de cima de cada peça
 							write(N),
-							display_line(L1, 'Mid'),	% 	Display Parte do meio de cada peça
+							display_linha(L1, 'Mid'),	% 	Display Parte do meio de cada peça
 							write(' '),
-							display_line(L1, 'Down'),	% 	Display Parte de baixo de cada peça
+							display_linha(L1, 'Down'),	% 	Display Parte de baixo de cada peça
 							write(' '),
-							display_line(L2, 'Top'),	% 	Display Parte de cima dos caminhos entre cada linha de peças
+							display_linha(L2, 'Top'),	% 	Display Parte de cima dos caminhos entre cada linha de peças
 							write(' '),
-							display_line(L2, 'Mid'),	% 	Display Parte de baixo dos caminhos entre cada linha de peças
+							display_linha(L2, 'Mid'),	% 	Display Parte de baixo dos caminhos entre cada linha de peças
 							N1 is N+1,
 							display_board(Ls, N1).
 
@@ -75,37 +75,37 @@ display_board([L1,L2|Ls], N) :-
 
 display_board([L1|[]], N) :- 		% 	Chama esta função quando na recursividade quando é para fazer display da última linha
 							write(' '),
-							display_line(L1, 'Top'),	% 	Estas 3 linhas seguintes é como anteriormente
+							display_linha(L1, 'Top'),	% 	Estas 3 linhas seguintes é como anteriormente
 							write(N),
-							display_line(L1, 'Mid'),
+							display_linha(L1, 'Mid'),
 							write(' '),
-							display_line(L1, 'Down'),
+							display_linha(L1, 'Down'),
 							display_board([]).
 
 display_board([]) :- nl.		% 	Condição de paragem para o display
 
 
 % Vamos apenas ignorar o primeiro elemento da lista
-display_line([], _Type) 	:-
+display_linha([], _Type) 	:-
 							nl.
 
-display_line([L1|Ls], 'Top') :-
+display_linha([L1|Ls], 'Top') :-
 							L1 = [_|L2],
 							junta_pecas(L2,_Res),
-							display_line(Ls, 'Top').
+							display_linha(Ls, 'Top').
 
 % Vamos ignorar o primeiro e a parte de cima, isto é, os 3 seguintes
-display_line([L1|Ls], 'Mid'):-
+display_linha([L1|Ls], 'Mid'):-
 							L1 = [_,_,_,_|L2],
 							junta_pecas(L2,_Res),
-							display_line(Ls, 'Mid').
+							display_linha(Ls, 'Mid').
 
 
 % Vamos ignorar o primeiro, a parte de cima e a parte do meio, isto é, os 6 seguintes
-display_line([L1|Ls], 'Down') :-
+display_linha([L1|Ls], 'Down') :-
 							L1 = [_,_,_,_,_,_,_|L2],
 							junta_pecas(L2,_Res),
-							display_line(Ls , 'Down').
+							display_linha(Ls , 'Down').
 
 
 
