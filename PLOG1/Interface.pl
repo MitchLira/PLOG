@@ -20,12 +20,12 @@ read_coordenadas_casa(X, Y) :-
 							convertToLine(LetterY, Y).
 
 read_TipoJogada(TipoMove) :-
-							write('what do you want to do? rotation or movement?\n'),
+							write('Choose the move you want to make: rotation(r) / movement(m) ?\n'),
 							read(Move),
 							convertMove(Move, TipoMove).
 
 read_rotacao(Sentido) :-
-							write('Choose the side you want to rotate the piece: left/right'),
+							write('Choose the side you want to rotate the piece: left(l) / right(r)'),
 							read(SentidoL),
 							convertRotate(SentidoL,Sentido).
 
@@ -75,17 +75,17 @@ valida_orientacao(Orientacao) :-
 							Orientacao = 9. % SE
 
 clear_screen :-
-							write('\33\[2J').						
-							
+							write('\33\[2J').
+
 %						Conversões das letras que identificam os jogadores
 convertPlayer(a, 1).
 convertPlayer(b, 2).
 
 %						Conversões do tipo de movimento escolhido
-convertMove('rotation', 0).
-convertMove('Rotation',0).
-convertMove('movement', 1).
-convertMove('Movement',1).
+convertMove('r', 0).
+convertMove('R',0).
+convertMove('m', 1).
+convertMove('M',1).
 
 %						Conversões das colunas, passamos de strings para números
 convertToColumn('a',0).
@@ -110,8 +110,8 @@ convertToLine(8,14).
 convertToLine(9,16).
 
 %						Conversões do sentido de rotação
-convertRotate('left',0).	% Esquerda
-convertRotate('right',1).	%	Direita
+convertRotate('l',0).	% Esquerda
+convertRotate('r',1).	%	Direita
 
 %						Conversões do número de casas que uma peça se pode mover, consoante o seu Idpeca
 convertContadorDir('c', 1).
@@ -132,3 +132,5 @@ convertOrientacao('e', 6).
 convertOrientacao('so', 7).
 convertOrientacao('s', 8).
 convertOrientacao('se', 9).
+
+convertComando('c', 4).

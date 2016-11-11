@@ -1,17 +1,40 @@
-menu_inicial(ModoJogo) :-
-            nl, nl, begin_message, nl, nl,
-            write('Choose the game mode:\n'),
-            menu_modes(ModoJogo).
-
-
 begin_message :-
             format('--------___________________---------- ~n',[]),
             format('-------|                   |--------- ~n',[]),
-            format('-------|  Ploy Board Gam   |--------- ~n',[]),
+            format('-------|  Ploy Board Game  |--------- ~n',[]),
             format('-------|___________________|--------- ~n',[]).
 
+mensagem_vencedor(Player) :-
+            format('--------___________________---------- ~n',[]),
+            format('-------|                   |--------- ~n',[]),
+            format('-------|  Player win ~S    |--------- ~n',[Player]),
+            format('-------|___________________|--------- ~n',[]).
+
+menu_inicial(ModoJogo) :-
+            nl, nl, begin_message, nl, nl,
+            repeat,
+                    menu_modes(ModoJogo),
+            valida_ModoJogo(ModoJogo).
+
 menu_modes(ModoJogo) :-
-            write('Mode 1 - Play vs Play\n'),
-            write('Mode 2 - Play vs Bot\n'),
+            write('Choose the game mode:\n'),
+            write('Mode 1 - Player vs Player\n'),
+            write('Mode 2 - Player vs Bot\n'),
             write('Mode 3 - Bot vs Bot\n'),
             read(ModoJogo).
+
+menu_mensagemVitoria(Player) :-
+            mensagem_vencedor(Player).
+
+menu_turnoJogador(Player) :-
+            write('------------------ Player '), write(Player), write(' turn --------------------\n').
+
+%           Verifica se modo de jogo é correto
+valida_ModoJogo(ModoJogo) :-
+            (ModoJogo =:= 1);
+            (ModoJogo =:= 2);
+            (ModoJogo =:= 3).
+
+%            Mensagem de erro para quando introduz modo de jogo errado
+valida_ModoJogo(_) :-
+            write('Enter the write game mode! (1, 2 or 3)\n').
