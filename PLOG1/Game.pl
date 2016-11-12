@@ -17,11 +17,18 @@ ploy :-
 					board(Default),
 					repeat,
 									once(retract(board(Board))),
+									once(write('ola1\n')),
 									once(displayBoard(Board)),
+									once(write('ola2\n')),
 									once(retract(player(Player))),
-									once(jogadorHxH(ModoJogo, Player, Board, IdPeca, NovoBoard)),
+									once(write('ola3\n')),
+									once(joga(ModoJogo, Board, Player, IdPeca, NovoBoard)),
+									once(write('ola4\n')),
+									%once(jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard)),
 									once(atualiza_jogador(Player)),
+									%once(write('ola5\n')),
 									once(assert(board(NovoBoard))),
+									once(write('ola6\n')),
 					fim_deJogo(IdPeca),
 					displayBoard(NovoBoard),
 					menu_mensagemVitoria(Player),
@@ -30,8 +37,13 @@ ploy :-
 					retract(player(_)),
 					assert(player(DefaultPlayer)).
 
+joga(ModoJogo, Board, Player, IdPeca, NovoBoard) :-
+					((ModoJogo = 1, jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard)),
+					(ModoJogo = 2, Player = 1, write('Jogo HUMANO X BOT\n')),%jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard)),
+					(ModoJogo = 2, Player = 2, IdPeca is 1, write('Vez do Bot Jogar\n')),
+					(ModoJogo = 3, IdPeca is 4, write('Jogo BOT X BOT\n'))).
 
-jogadorHxH(ModoJogo, Player, Board, IdPeca, NovoBoard) :-
+jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard) :-
 					menu_turnoJogador(Player), nl,
 					read_utilizador(Board, X, Y, Player, TipoMove),
 					faz_jogada(Board, X, Y, TipoMove, Player, NovoBoard, IdPeca).
