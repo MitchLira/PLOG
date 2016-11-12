@@ -13,7 +13,7 @@ mensagem_vencedor(Player) :-
 menu_inicial(ModoJogo) :-
             nl, nl, begin_message, nl, nl,
             repeat,
-                    menu_modes(ModoJogo),
+            menu_modes(ModoJogo),
             valida_ModoJogo(ModoJogo).
 
 menu_modes(ModoJogo) :-

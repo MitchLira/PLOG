@@ -13,22 +13,17 @@
 
 ploy :-
 					menu_inicial(ModoJogo),
-					player(DefaultPlayer),
+					joga(ModoJogo).
+
+joga(1) :-      	player(DefaultPlayer),
 					board(Default),
 					repeat,
 									once(retract(board(Board))),
-									once(write('ola1\n')),
 									once(displayBoard(Board)),
-									once(write('ola2\n')),
 									once(retract(player(Player))),
-									once(write('ola3\n')),
-									%once(joga(ModoJogo, Board, Player, IdPeca, NovoBoard)),
-									once(write('ola4\n')),
 									once(jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard)),
 									once(atualiza_jogador(Player)),
-									%once(write('ola5\n')),
 									once(assert(board(NovoBoard))),
-									once(write('ola6\n')),
 					fim_deJogo(IdPeca),
 					displayBoard(NovoBoard),
 					menu_mensagemVitoria(Player),
@@ -36,23 +31,51 @@ ploy :-
 					assert(board(Default)),
 					retract(player(_)),
 					assert(player(DefaultPlayer)).
+					
+%joga(ModoJogo, Board, Player, IdPeca, NovoBoard) :-
+%					((ModoJogo = 1, jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard)),
+%					(ModoJogo = 2, Player = 1, write('Jogo HUMANO X BOT\n')),%jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard)),
+%					(ModoJogo = 2, Player = 2, IdPeca is 1, write('Vez do Bot Jogar\n')),
+%					(ModoJogo = 3, IdPeca is 4, write('Jogo BOT X BOT\n'))).
 
-joga(ModoJogo, Board, Player, IdPeca, NovoBoard) :-
-					((ModoJogo = 1, jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard)),
-					(ModoJogo = 2, Player = 1, write('Jogo HUMANO X BOT\n')),%jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard)),
-					(ModoJogo = 2, Player = 2, IdPeca is 1, write('Vez do Bot Jogar\n')),
-					(ModoJogo = 3, IdPeca is 4, write('Jogo BOT X BOT\n'))).
-
+					
 jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard) :-
 					menu_turnoJogador(Player), nl,
 					read_utilizador(Board, X, Y, Player, TipoMove),
 					faz_jogada(Board, X, Y, TipoMove, Player, NovoBoard, IdPeca).
 
+pode_mover(Board, Xantes, Yantes, NumeroCasas, Jogador, IdPeca, Orientacao) :-
+	get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NumeroCasas),
+	valida_coordenada(X, Y),!,
+	get_casa(Board, X, Y, NovaCasa),
+	verifica_casaJogador(Board, X, Y, Orientacao, Jogador, NovaCasa, IdPeca),!.
+	
 % 			Predicados responsáveis por uma jogada
-faz_jogada(Board, X, Y, TipoMove, Player, NovoBoard, IdPeca) :-
-					((TipoMove =:= 0, jogada_rotacao(Board, X, Y, NovoBoard, IdPeca));
-					(TipoMove =:= 1, jogada_movimento(Board, X, Y, Player, NovoBoard, IdPeca))).
+faz_jogada(Board, X, Y, 0, Jogador, NovoBoard, IdPeca) :-
+					jogada_rotacao(Board, X, Y, NovoBoard, IdPeca).
+					
+					
+faz_jogada(Board, X, Y, 1, Jogador, NovoBoard, IdPeca) :-
+	write('olaaa'), nl,
+	ask_NumeroCasas(Board, X, Y, NcasasPossiveis, NcasasEscolhidas,Jogador, Orientacao),write('oi'),nl,
+	(
+		(pode_mover(Board, X, Y, NcasasEscolhidas, Jogador, IdPeca, Orientacao),
+		jogada_movimento(Board, X, Y, Jogador, NovoBoard, IdPeca, NcasasEscolhidas, Orientacao))
+		;
+		jogada_rotacao(Board, X, Y, NovoBoard, IdPeca)
+	).
 
+ask_NumeroCasas(Board, X, Y, NcasasPossiveis, NcasasEscolhidas,Jogador, Orientacao) :-
+				repeat,	% Ciclo para pedir quantas casas quer mexer
+								once(get_numeroCasas(Board, X, Y, NcasasPossiveis)),
+								once(read_NumeroCasas(NcasasPossiveis, NcasasEscolhidas)),
+				valida_NcasasUtilizador(NcasasPossiveis, NcasasEscolhidas),
+				repeat,	% 	Ciclo para pedir a orientação para onde vai mover a peça
+								once(read_orientacao(Orientacao, NcasasPossiveis, NcasasEscolhidas)),
+				(valida_orientacaoPossivel(Board, X, Y, Orientacao, Jogador), pode_mover(Board, X,Y, Jogador, IdPeca, NcasasEscolhidas, Orientacao)).
+					
+					
+					
 %				Quando escolhe fazer rotação
 jogada_rotacao(Board, X, Y, NovoBoard, IdPeca) :-
 					IdPeca is 1,
@@ -61,20 +84,15 @@ jogada_rotacao(Board, X, Y, NovoBoard, IdPeca) :-
 					valida_rotacao(Sentido),
 					rodar_peca(Board, X, Y, Sentido, NovoBoard).
 
+					
 %				Quando escolhe fazer um movimento
-jogada_movimento(Board, X, Y, Player, NovoBoard, IdPeca) :-
-					repeat,	% Ciclo para pedir quantas casas quer mexer
-								once(get_numeroCasas(Board, X, Y, NcasasPossiveis)),
-								once(read_NumeroCasas(NcasasPossiveis, NcasasEscolhidas)),
-					valida_NcasasUtilizador(NcasasPossiveis, NcasasEscolhidas),
-					repeat,	% 	Ciclo para pedir a orientação para onde vai mover a peça
-								once(read_orientacao(Orientacao, NcasasPossiveis, NcasasEscolhidas)),
-					valida_orientacaoPossivel(Board, X, Y, Orientacao, Player),
+jogada_movimento(Board, X, Y, Player, NovoBoard, IdPeca, NcasasEscolhidas, Orientacao) :-
 					mover_peca(Board, X, Y, Orientacao, Player, NovoBoard, NcasasEscolhidas, IdPeca).
 
-valida_orientacaoPossivel(Board, X, Y, Orientacao, Player) :-
+valida_orientacaoPossivel(Board, X, Y, Orientacao, Jogador) :-
+						
 					((valida_orientacao(Orientacao)),
-					(verificar_bitOrientacao(Board, X, Y, Orientacao, Player))).
+					(verificar_bitOrientacao(Board, X, Y, Orientacao, Jogador))).
 
 atualiza_jogador(Player) :-
 					((Player =:= 1, assert(player(2)));

@@ -10,9 +10,6 @@ verificar_bitOrientacao(Board, X, Y, Orientacao, Jogador):-
 %						Predicado responsável por mover uma peça
 mover_peca(Board, Xantes, Yantes, Orientacao, Jogador, NovoBoard, NcasasEscolhidas, IdPeca) :-
 							get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NcasasEscolhidas),
-							valida_coordenada(X, Y), !,
-							get_casa(Board, X, Y, NovaCasa),
-							verifica_casaJogador(Board, X, Y, Orientacao, Jogador, NovaCasa, IdPeca), !,
 							get_casa(Board, Xantes, Yantes, Peca), %	guardo a peca que quero mexer
 							set_board_casa(X, Y, Peca, Board, MoveBoard),	%	movo a peca
 							delete_board_casa(Xantes, Yantes, MoveBoard, NovoBoard). %	apago a casa onde a peca estava
@@ -42,7 +39,6 @@ valida_jogador(Board, X, Y, Orientacao, Jogador, IdPeca):-
 							get_bitPeca(Board, X, Y, 0, Peca),
 							convertComando(Peca, IdPeca),
 							convertPlayer(Idjogador,IDJogador),
-							write(Idjogador),nl, write(IDJogador),nl,
 							IDJogador \= Jogador.
 
 %						Conforme a orientacao dada retorna as coordenadas para a qual a peça se vai mexer
