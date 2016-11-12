@@ -37,4 +37,5 @@ valida_ModoJogo(ModoJogo) :-
 
 %            Mensagem de erro para quando introduz modo de jogo errado
 valida_ModoJogo(_) :-
-            write('Enter the write game mode! (1, 2 or 3)\n').
+            write('\nEnter the write game mode! (1, 2 or 3)\n'),
+            fail.

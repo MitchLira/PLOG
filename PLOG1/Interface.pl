@@ -11,21 +11,21 @@ read_utilizador(Board, X, Y, Player, TipoMove) :-
 							valida_Movimento(TipoMove).
 
 read_coordenadas_casa(X, Y) :-
-							write('Choose the piece'), nl,
-							write('Enter the X coordinates: '),
+							write('\nChoose the piece'), nl,
+							write('Enter the X coordinates'),
 							read(LetterX),
 							convertToColumn(LetterX, X),
-							write('Enter the Y coordinates: '),
+							write('Enter the Y coordinates'),
 							read(LetterY),
 							convertToLine(LetterY, Y).
 
 read_TipoJogada(TipoMove) :-
-							write('Choose the move you want to make: rotation(r) / movement(m) ?\n'),
+							write('\nChoose the move you want to make [rotation(r) / movement(m)]'),
 							read(Move),
 							convertMove(Move, TipoMove).
 
 read_rotacao(Sentido) :-
-							write('Choose the side you want to rotate the piece: left(l) / right(r)'),
+							write('\nChoose the side you want to rotate the piece [left(l) / right(r)]'),
 							read(SentidoL),
 							convertRotate(SentidoL,Sentido).
 
@@ -35,7 +35,7 @@ read_NumeroCasas(NcasasPossiveis, NcasasEscolhidas) :-
 							read(NcasasEscolhidas).
 
 read_orientacao(Ori, NcasasPossiveis, NcasasEscolhidas) :-
-							write('Choose the direction of the movement: '), nl,
+							write('\nChoose the direction of the movement: '), nl,
 							write('no\n'),
 							write('n\n'),
 							write('ne\n'),

@@ -38,11 +38,12 @@ jogadorHxH(ModoJogo, Player, Board, IdPeca, NovoBoard) :-
 
 % 			Predicados responsáveis por uma jogada
 faz_jogada(Board, X, Y, TipoMove, Player, NovoBoard, IdPeca) :-
-					((TipoMove =:= 0, jogada_rotacao(Board, X, Y, NovoBoard));
+					((TipoMove =:= 0, jogada_rotacao(Board, X, Y, NovoBoard, IdPeca));
 					(TipoMove =:= 1, jogada_movimento(Board, X, Y, Player, NovoBoard, IdPeca))).
 
 %				Quando escolhe fazer rotação
-jogada_rotacao(Board, X, Y, NovoBoard) :-
+jogada_rotacao(Board, X, Y, NovoBoard, IdPeca) :-
+					IdPeca is 1,
 					repeat,	% Ciclo que vai ler o sentido em que quer rodar (Esquerda/Direita)
 								once(read_rotacao(Sentido)),
 					valida_rotacao(Sentido),
@@ -68,7 +69,4 @@ atualiza_jogador(Player) :-
 					(Player =:= 2, assert(player(1)))).
 
 fim_deJogo(IdPeca) :-
-					write(IdPeca),nl,
-					convertComando(IdPeca, Peca),
-					write(Peca),nl,
-					Peca \= 4.
+					IdPeca = 4.

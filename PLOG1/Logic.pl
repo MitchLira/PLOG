@@ -10,9 +10,9 @@ verificar_bitOrientacao(Board, X, Y, Orientacao, Jogador):-
 %						Predicado responsável por mover uma peça
 mover_peca(Board, Xantes, Yantes, Orientacao, Jogador, NovoBoard, NcasasEscolhidas, IdPeca) :-
 							get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NcasasEscolhidas),
-							valida_coordenada(X, Y),
+							valida_coordenada(X, Y), !,
 							get_casa(Board, X, Y, NovaCasa),
-							verifica_casaJogador(Board, X, Y, Orientacao, Jogador, NovaCasa, IdPeca),
+							verifica_casaJogador(Board, X, Y, Orientacao, Jogador, NovaCasa, IdPeca), !,
 							get_casa(Board, Xantes, Yantes, Peca), %	guardo a peca que quero mexer
 							set_board_casa(X, Y, Peca, Board, MoveBoard),	%	movo a peca
 							delete_board_casa(Xantes, Yantes, MoveBoard, NovoBoard). %	apago a casa onde a peca estava
@@ -28,20 +28,22 @@ valida_coordenada(X,Y) :-
 
 % 					Verifica se a casa para onde se vai mover é vazia ou do adversário
 verifica_casaJogador(Board, X, Y, Orientacao, Jogador, NovaCasa, IdPeca) :-
-							valida_casaVazia(NovaCasa);
+							valida_casaVazia(NovaCasa, IdPeca);
 							valida_jogador(Board, X, Y, Orientacao, Jogador, IdPeca).
 
 %						Verfica se a casa está vazia
-valida_casaVazia(Casa):-
+valida_casaVazia(Casa, IdPeca):-
+							IdPeca is 1,
 							Casa=[_,0,0,0,0,0,0,0,0,0].
 
 %						Verifica se o bit da lista da peca e do jogador 1 ou 2 e esta ativo
 valida_jogador(Board, X, Y, Orientacao, Jogador, IdPeca):-
-							get_bitPeca(Board, X, Y, Orientacao, Bit),
 							get_bitPeca(Board, X, Y, 5, Idjogador),
-							get_bitPeca(Board, X, Y, 0, IdPeca),
-							Bit \= Jogador,
-							Idjogador \= Jogador.
+							get_bitPeca(Board, X, Y, 0, Peca),
+							convertComando(Peca, IdPeca),
+							convertPlayer(Idjogador,IDJogador),
+							write(Idjogador),nl, write(IDJogador),nl,
+							IDJogador \= Jogador.
 
 %						Conforme a orientacao dada retorna as coordenadas para a qual a peça se vai mexer
 get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NumeroCasas) :- % , X, Y, NewX, NewY, Ncasas) :-
