@@ -23,7 +23,7 @@ joga(1) :-      	ModoJogo is 1,
 									once(retract(board(Board))),
 									once(displayBoard(Board)),
 									once(retract(player(Player))),
-									once(jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard)),
+									once(escolhe_jogador(ModoJogo, Player, Board, IdPeca, NovoBoard)),
 									once(atualiza_jogador(Player)),
 									once(assert(board(NovoBoard))),
 					fim_deJogo(IdPeca),
@@ -99,16 +99,16 @@ read_Bot(Board, X, Y, Player, TipoMove) :-
 							once(get_bitPeca(Board, X, Y, 5, Bit)),
 							once(convertPlayer(Bit, P)),
 				valida_escolhaPeca(X, Y, Player, P),
-							write('X: '), write(X),write('Y: '), write(Y),nl,
+							write('X: '), write(X),write(' Y: '), write(Y),nl,
 							repeat,
 							once(create_tipoJogada_bot(TipoMove)),
 				valida_Movimento(TipoMove).
 				
 				
 create_coordenadas_bot(X,Y) :-
-							random(1,10, XAntes),
+							random(0,10, XAntes),
 							X is XAntes*2,
-							random(1,10, Yantes),
+							random(0,10, Yantes),
 							Y is Yantes*2.
 	
 create_tipoJogada_bot(TipoMove):-
@@ -157,7 +157,7 @@ ask_NumeroCasas(Board, X, Y, NcasasPossiveis, NcasasEscolhidas,Jogador, Orientac
 								once(read_NumeroCasas(NcasasPossiveis, NcasasEscolhidas)),
 				valida_NcasasUtilizador(NcasasPossiveis, NcasasEscolhidas),
 				repeat,	% 	Ciclo para pedir a orientação para onde vai mover a peça
-								once(read_orientacao(Orientacao, NcasasPossiveis, NcasasEscolhidas)),
+								once(read_orientacao(Orientacao)),
 				(valida_orientacaoPossivel(Board, X, Y, Orientacao, Jogador)).
 
 read_numeroCasas_Bot(Board, X, Y, NcasasPossiveis, NcasasEscolhidas,Jogador, Orientacao) :-
@@ -167,7 +167,7 @@ read_numeroCasas_Bot(Board, X, Y, NcasasPossiveis, NcasasEscolhidas,Jogador, Ori
 				valida_NcasasUtilizador(NcasasPossiveis, NcasasEscolhidas),
 				write('Number of moves:' ), write(NcasasEscolhidas),nl,
 				repeat,	% 	Ciclo para pedir a orientação para onde vai mover a peça
-								once(create_orientacao_Bot(Orientacao, NcasasPossiveis, NcasasEscolhidas)),
+								once(create_orientacao_Bot(Orientacao)),
 				(valida_orientacaoPossivel(Board, X, Y, Orientacao, Jogador)),
 				write('Direction of the move: '), convertOrientacao(OrientacaoLetra, Orientacao),
 				write(OrientacaoLetra),nl.
@@ -178,7 +178,7 @@ create_numeroCasa_Bot(NcasasPossiveis, NcasasEscolhidas):-
 							NcasasEscolhidas is NCasasAntes,
 							write('Numero casas: ' ),write(NcasasEscolhidas),nl.
 					
-create_orientacao_Bot(Orientacao, NcasasPossiveis, NcasasEscolhidas):-
+create_orientacao_Bot(Orientacao):-
 							random(1,9,OrientacaoAntes),
 							((OrientacaoAntes =< 4, Orientacao is OrientacaoAntes );
 							(OrientacaoAntes >= 5, Orientacao is OrientacaoAntes + 1)).
@@ -203,7 +203,7 @@ jogada_rotacao_bot(Board,X,Y,NovoBoard,IdPeca):-
 					
 %				Quando escolhe fazer um movimento
 jogada_movimento(Board, X, Y, Player, NovoBoard, IdPeca, NcasasEscolhidas, Orientacao) :-
-					mover_peca(Board, X, Y, Orientacao, Player, NovoBoard, NcasasEscolhidas, IdPeca).
+					mover_peca(Board, X, Y, Orientacao, NovoBoard, NcasasEscolhidas).
 
 valida_orientacaoPossivel(Board, X, Y, Orientacao, Jogador) :-
 					valida_orientacao(Orientacao),

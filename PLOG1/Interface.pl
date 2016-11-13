@@ -34,7 +34,7 @@ read_NumeroCasas(NcasasPossiveis, NcasasEscolhidas) :-
 							write('How many moves do you want to make?'),
 							read(NcasasEscolhidas).
 
-read_orientacao(Ori, NcasasPossiveis, NcasasEscolhidas) :-
+read_orientacao(Ori) :-
 							write('\nChoose the direction of the movement: '), nl,
 							write('no\n'),
 							write('n\n'),

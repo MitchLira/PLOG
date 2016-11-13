@@ -8,7 +8,7 @@ verificar_bitOrientacao(Board, X, Y, Orientacao, Jogador):-
 %========================================================================
 
 %						Predicado responsável por mover uma peça
-mover_peca(Board, Xantes, Yantes, Orientacao, Jogador, NovoBoard, NcasasEscolhidas, IdPeca) :-
+mover_peca(Board, Xantes, Yantes, Orientacao, NovoBoard, NcasasEscolhidas) :-
 							get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NcasasEscolhidas),
 							get_casa(Board, Xantes, Yantes, Peca), %	guardo a peca que quero mexer
 							set_board_casa(X, Y, Peca, Board, MoveBoard),	%	movo a peca
@@ -34,7 +34,7 @@ valida_casaVazia(Casa, IdPeca):-
 							Casa=[_,0,0,0,0,0,0,0,0,0].
 
 %						Verifica se o bit da lista da peca e do jogador 1 ou 2 e esta ativo
-valida_jogador(Board, X, Y, Orientacao, Jogador, IdPeca):-
+valida_jogador(Board, X, Y, _Orientacao, Jogador, IdPeca):-
 							get_bitPeca(Board, X, Y, 5, Idjogador),
 							get_bitPeca(Board, X, Y, 0, Peca),
 							convertComando(Peca, IdPeca),
