@@ -53,8 +53,8 @@ valida_escolhaPeca(X, Y, Player, Bit) :-
 							Player == Bit.
 
 valida_rotacao(Sentido) :-
-							Sentido = 0;	% Esquerda
-							Sentido = 1.	% Direita
+							Sentido =:= 0;	% Esquerda
+							Sentido =:= 1.	% Direita
 
 valida_Movimento(TipoMove) :-
 							TipoMove = 0; %Rotacao

@@ -16,10 +16,10 @@ mover_peca(Board, Xantes, Yantes, Orientacao, Jogador, NovoBoard, NcasasEscolhid
 
 %						Verifica se as coordenadas X e Y estão dentro dos limites
 valida_coordenada(X,Y) :-
-							X>=0,
-							X=<16,
-							Y>=0,
-							Y=<16,
+							X >= 0,
+							X =< 16,
+							Y >= 0,
+							Y =< 16,
 							0 is X mod 2,
 							0 is Y mod 2.
 
