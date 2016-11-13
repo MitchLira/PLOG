@@ -5,10 +5,10 @@ begin_message :-
             format('-------|___________________|--------- ~n',[]).
 
 mensagem_vencedor(Player) :-
-            write('--------___________________----------'),nl,
-            write('-------|                   |---------'),nl,
-            write('-------|  Player win   '),write(Player),write('   |---------'),nl,
-            write('-------|___________________|---------'),nl.
+            write('--------__________________________---------'),nl,
+            write('-------|                          |---------'),nl,
+            write('-------|  Player '),write(Player),write(' is the winner! |---------'),nl,
+            write('-------|__________________________|---------'),nl.
 
 menu_inicial(ModoJogo) :-
             nl, nl, begin_message, nl, nl,
