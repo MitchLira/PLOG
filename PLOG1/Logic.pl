@@ -10,10 +10,10 @@ verificar_bitOrientacao(Board, X, Y, Orientacao, Jogador):-
 %predicado responsável por verificar se a casa para onde se pretende mexer uma peça
 % está dentro dos limites do tabuleiro e se estiver, é uma casa vazia ou uma peça do jogador adversário
 pode_mover(Board, Xantes, Yantes, NumeroCasas, Jogador, IdPeca, Orientacao) :-
-	get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NumeroCasas),
-	valida_coordenada(X, Y),!,
-	get_casa(Board, X, Y, NovaCasa),
-	verifica_casaJogador(Board, X, Y, Orientacao, Jogador, NovaCasa, IdPeca),!.
+							get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NumeroCasas),
+							valida_coordenada(X, Y),!,
+							get_casa(Board, X, Y, NovaCasa),
+							verifica_casaJogador(Board, X, Y, Orientacao, Jogador, NovaCasa, IdPeca),!.
 
 %						Predicado responsável por mover uma peça
 mover_peca(Board, Xantes, Yantes, Orientacao, NovoBoard, NcasasEscolhidas) :-
