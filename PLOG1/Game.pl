@@ -74,12 +74,12 @@ joga(3) :- 			ModoJogo is 3,
 					retract(player(_)),
 					assert(player(DefaultPlayer)).
 
-	
+
 escolhe_jogador(Player, Board, IdPeca, NovoBoard, ModoJogo) :-
 			((Player =:= 1,ModoJogo =:= 2, jogador_Humano(Player, Board, IdPeca, NovoBoard,ModoJogo));
 			(Player =:= 2,ModoJogo =:= 2, jogador_Bot(Player, Board, IdPeca, NovoBoard,ModoJogo));
 			(ModoJogo =:= 3, jogador_Bot(Player, Board,IdPeca, NovoBoard, ModoJogo))).
-			
+
 jogador_Bot(Player, Board, IdPeca, NovoBoard,ModoJogo) :-
 			menu_turnoJogador(Player), nl,
 			criar_variaveis_random(Player,Board, IdPeca, NovoBoard, X,Y, TipoMove),
@@ -88,7 +88,7 @@ jogador_Bot(Player, Board, IdPeca, NovoBoard,ModoJogo) :-
 jogador_Humano(Player, Board, IdPeca, NovoBoard, ModoJogo) :-
 					menu_turnoJogador(Player), nl,
 					read_utilizador(Board, X, Y, Player, TipoMove),
-					faz_jogada(Board, X, Y, TipoMove, Player, NovoBoard, IdPeca,ModoJogo).			
+					faz_jogada(Board, X, Y, TipoMove, Player, NovoBoard, IdPeca,ModoJogo).
 
 %joga(ModoJogo, Board, Player, IdPeca, NovoBoard) :-
 %					((ModoJogo = 1, jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard)),
@@ -97,7 +97,7 @@ jogador_Humano(Player, Board, IdPeca, NovoBoard, ModoJogo) :-
 %					(ModoJogo = 3, IdPeca is 4, write('Jogo BOT X BOT\n'))).
 
 
-				
+
 criar_variaveis_random(Player, Board, IdPeca,NovoBoard, X, Y, TipoMove):-
 					repeat,
 						once(random(0,9,X1)),
@@ -115,9 +115,9 @@ criar_variaveis_random(Player, Board, IdPeca,NovoBoard, X, Y, TipoMove):-
 					valida_Movimento(TipoMove).
 
 
-			
 
-					
+
+
 jogador_Bot(Player, Board, IdPeca,NovoBoard) :-
 					menu_turnoJogador(Player),nl,
 					criar_variaveis_random(Player, Board,IdPeca,NovoBoard, X,Y, TipoMove),
@@ -128,14 +128,14 @@ pode_mover(Board, Xantes, Yantes, NumeroCasas, Jogador, IdPeca, Orientacao) :-
 	valida_coordenada(X, Y),!,
 	get_casa(Board, X, Y, NovaCasa),
 	verifica_casaJogador(Board, X, Y, Orientacao, Jogador, NovaCasa, IdPeca),!.
-	
+
 % 			Predicados responsáveis por uma jogada
 faz_jogada(Board, X, Y, 0, Jogador, NovoBoard, IdPeca,ModoJogo) :-
 				jogada_rotacao(Board, X, Y,Jogador, NovoBoard, IdPeca,ModoJogo).
-					
+
 faz_jogada_Bot(Board,X,Y, 0, Jogador,NovoBoard, IdPeca,ModoJogo) :-
-				jogada_rotacao(Board, X, Y,Jogador, NovoBoard, IdPeca,ModoJogo).	
-					
+				jogada_rotacao(Board, X, Y,Jogador, NovoBoard, IdPeca,ModoJogo).
+
 faz_jogada(Board, X, Y, 1, Jogador, NovoBoard, IdPeca,ModoJogo) :-
 	ask_NumeroCasas(Board, X, Y, NcasasPossiveis, NcasasEscolhidas,Jogador, Orientacao),
 	(
@@ -146,7 +146,7 @@ faz_jogada(Board, X, Y, 1, Jogador, NovoBoard, IdPeca,ModoJogo) :-
 	).
 
 faz_jogada_Bot(Board,X,Y, 1, Jogador,NovoBoard, IdPeca, ModoJogo) :-
-	criar_variaveis_random_movimento(Jogador, Board, IdPeca, NovoBoard, X, Y, 1, NcasasEscolhidas, Orientacao), 
+	criar_variaveis_random_movimento(Jogador, Board, IdPeca, NovoBoard, X, Y, 1, NcasasEscolhidas, Orientacao),
 	(
 		(pode_mover(Board, X, Y, NcasasEscolhidas, Jogador, IdPeca, Orientacao),
 		jogada_movimento(Board, X, Y, Jogador, NovoBoard, IdPeca, NcasasEscolhidas, Orientacao))
@@ -163,16 +163,15 @@ criar_variaveis_random_movimento(Player, Board, IdPeca, NovoBoard, X, Y, TipoMov
 				write('NcasasEscolhidas: '),write(NcasasEscolhidas),nl,
 			valida_NcasasUtilizador(NcasasPossiveis, NcasasEscolhidas),
 			criar_variaveis_random_orientacao(Board, X, Y, Player, Orientacao).
-			
+
 criar_variaveis_random_orientacao(Board, X, Y, Player, Orientacao):-
 			repeat,	% 	Ciclo para pedir a orientação para onde vai mover a peça
 					once(random(1,10,Ori)),
 				    ((Ori =< 4,Orientacao is Ori);
 					(Ori >= 6,Orientacao is Ori + 1)),
-					write('Ori: '), write(Ori),write(' Orientacao:'), write(Orientacao),nl,
 			(valida_orientacaoPossivel(Board, X, Y, Orientacao, Player)),
 			write('Orientacao: '),write(Ori), nl.
-			
+
 get_numeroCasas_Bot(Board, X,Y, NcasasPossiveis,NcasasEscolhidas,Jogador, Orientacao) :-
 				repeat,	% Ciclo para pedir quantas casas quer mexer
 								once(get_numeroCasas(Board, X, Y, NcasasPossiveis)),
@@ -183,7 +182,7 @@ get_numeroCasas_Bot(Board, X,Y, NcasasPossiveis,NcasasEscolhidas,Jogador, Orient
 				repeat,	% 	Ciclo para pedir a orientação para onde vai mover a peça
 								once(read_orientacao(Orientacao, NcasasPossiveis, NcasasEscolhidas)),
 				(valida_orientacaoPossivel(Board, X, Y, Orientacao, Jogador)).
-				
+
 ask_NumeroCasas(Board, X, Y, NcasasPossiveis, NcasasEscolhidas,Jogador, Orientacao) :-
 				repeat,	% Ciclo para pedir quantas casas quer mexer
 								once(get_numeroCasas(Board, X, Y, NcasasPossiveis)),
@@ -192,12 +191,12 @@ ask_NumeroCasas(Board, X, Y, NcasasPossiveis, NcasasEscolhidas,Jogador, Orientac
 				repeat,	% 	Ciclo para pedir a orientação para onde vai mover a peça
 								once(read_orientacao(Orientacao, NcasasPossiveis, NcasasEscolhidas)),
 				(valida_orientacaoPossivel(Board, X, Y, Orientacao, Jogador)).
-					
+
 %				Quando escolhe fazer rotação
 jogada_rotacao(Board, X, Y,Jogador, NovoBoard, IdPeca,ModoJogo) :-
 					IdPeca is 1,
 					((Jogador =:= 1,ModoJogo =\=3, get_sentido_humano(Sentido));
-					 (Jogador =:= 2, ModoJogo =:= 2, get_sentido_Bot(Sentido); 
+					 (Jogador =:= 2, ModoJogo =:= 2, get_sentido_Bot(Sentido);
 					 (ModoJogo =:= 3, get_sentido_Bot(Sentido)))),
 					rodar_peca(Board, X, Y, Sentido, NovoBoard).
 
@@ -211,7 +210,7 @@ get_sentido_Bot(Sentido) :-
 			once(random(0,2,Sentido)),
 		valida_rotacao(Sentido).
 
-		
+
 %				Quando escolhe fazer um movimento
 jogada_movimento(Board, X, Y, Player, NovoBoard, IdPeca, NcasasEscolhidas, Orientacao) :-
 					mover_peca(Board, X, Y, Orientacao, Player, NovoBoard, NcasasEscolhidas, IdPeca).
