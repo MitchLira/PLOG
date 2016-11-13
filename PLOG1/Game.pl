@@ -77,16 +77,16 @@ joga(3)	:- 			ModoJogo is 3,
 
 escolhe_jogador(ModoJogo, Player, Board, IdPeca, NovoBoard) :-
 				((ModoJogo =:= 1, jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard));
-				 (ModoJogo =:= 2, Player =:= 1, jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard));
-				 (ModoJogo =:= 2, Player =:= 2, jogador_Bot(ModoJogo, Player, Board, IdPeca, NovoBoard));
-				 (ModoJogo =:= 3, jogador_Bot(ModoJogo, Player, Board, IdPeca, NovoBoard))).
+				 (ModoJogo =:= 2, Player =:= 1, jogador_Humano( Player, Board, IdPeca, NovoBoard));
+				 (ModoJogo =:= 2, Player =:= 2, jogador_Bot(Player, Board, IdPeca, NovoBoard));
+				 (ModoJogo =:= 3, jogador_Bot( Player, Board, IdPeca, NovoBoard))).
 	
-jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard) :-
+jogador_Humano(Player, Board, IdPeca, NovoBoard) :-
 					menu_turnoJogador(Player), nl,
 					read_utilizador(Board, X, Y, Player, TipoMove),
 					faz_jogada(Board, X, Y, TipoMove, Player, NovoBoard, IdPeca).
 					
-jogador_Bot(ModoJogo, Player, Board,IdPeca, NovoBoard) :-
+jogador_Bot( Player, Board,IdPeca, NovoBoard) :-
 				menu_turnoJogador(Player),nl,
 				read_Bot(Board, X, Y, Player, TipoMove),
 				faz_jogada_bot(Board, X, Y, TipoMove, Player, NovoBoard, IdPeca).
@@ -122,36 +122,36 @@ pode_mover(Board, Xantes, Yantes, NumeroCasas, Jogador, IdPeca, Orientacao) :-
 	verifica_casaJogador(Board, X, Y, Orientacao, Jogador, NovaCasa, IdPeca),!.
 	
 % 			Predicados responsáveis por uma jogada
-faz_jogada(Board, X, Y, 0, Jogador, NovoBoard, IdPeca) :-
+faz_jogada(Board, X, Y, 0, _Jogador, NovoBoard, IdPeca) :-
 					jogada_rotacao(Board, X, Y, NovoBoard, IdPeca).
 					
 					
 faz_jogada(Board, X, Y, 1, Jogador, NovoBoard, IdPeca) :-
-	ask_NumeroCasas(Board, X, Y, NcasasPossiveis, NcasasEscolhidas,Jogador, Orientacao),
+	ask_NumeroCasas(Board, X, Y, NcasasEscolhidas,Jogador, Orientacao),
 	(
 		(pode_mover(Board, X, Y, NcasasEscolhidas, Jogador, IdPeca, Orientacao),
-		jogada_movimento(Board, X, Y, Jogador, NovoBoard, IdPeca, NcasasEscolhidas, Orientacao))
+		jogada_movimento(Board, X, Y, NovoBoard, NcasasEscolhidas, Orientacao))
 		;
 		jogada_rotacao(Board, X, Y, NovoBoard, IdPeca)
 	).
 
 	
 	
-faz_jogada_bot(Board, X, Y, 0, Jogador, NovoBoard, IdPeca) :-
+faz_jogada_bot(Board, X, Y, 0, _Jogador, NovoBoard, IdPeca) :-
 					write('Move: '),convertMove(MoveLetra, 0), write(MoveLetra),nl,
 					jogada_rotacao_bot(Board, X, Y, NovoBoard, IdPeca).	
 
 faz_jogada_bot(Board, X, Y, 1, Jogador, NovoBoard, IdPeca) :-
 	write('Move: '),convertMove(MoveLetra, 1), write(MoveLetra),nl,
-	read_numeroCasas_Bot(Board, X, Y, NcasasPossiveis, NcasasEscolhidas,Jogador, Orientacao),
+	read_numeroCasas_Bot(Board, X, Y, NcasasEscolhidas,Jogador, Orientacao),
 	(
 		(pode_mover(Board, X, Y, NcasasEscolhidas, Jogador, IdPeca, Orientacao),
-		jogada_movimento(Board, X, Y, Jogador, NovoBoard, IdPeca, NcasasEscolhidas, Orientacao))
+		jogada_movimento(Board, X, Y, NovoBoard, NcasasEscolhidas, Orientacao))
 		;
 		jogada_rotacao_bot(Board, X, Y, NovoBoard, IdPeca)
 	).					
 	
-ask_NumeroCasas(Board, X, Y, NcasasPossiveis, NcasasEscolhidas,Jogador, Orientacao) :-
+ask_NumeroCasas(Board, X, Y,NcasasEscolhidas,Jogador, Orientacao) :-
 				repeat,	% Ciclo para pedir quantas casas quer mexer
 								once(get_numeroCasas(Board, X, Y, NcasasPossiveis)),
 								once(read_NumeroCasas(NcasasPossiveis, NcasasEscolhidas)),
@@ -160,7 +160,7 @@ ask_NumeroCasas(Board, X, Y, NcasasPossiveis, NcasasEscolhidas,Jogador, Orientac
 								once(read_orientacao(Orientacao)),
 				(valida_orientacaoPossivel(Board, X, Y, Orientacao, Jogador)).
 
-read_numeroCasas_Bot(Board, X, Y, NcasasPossiveis, NcasasEscolhidas,Jogador, Orientacao) :-
+read_numeroCasas_Bot(Board, X, Y, NcasasEscolhidas,Jogador, Orientacao) :-
 				repeat,	% Ciclo para pedir quantas casas quer mexer
 								once(get_numeroCasas(Board, X, Y, NcasasPossiveis)),
 								once(create_numeroCasa_Bot(NcasasPossiveis, NcasasEscolhidas)),
@@ -202,7 +202,7 @@ jogada_rotacao_bot(Board,X,Y,NovoBoard,IdPeca):-
 					rodar_peca(Board, X, Y, Sentido, NovoBoard).
 					
 %				Quando escolhe fazer um movimento
-jogada_movimento(Board, X, Y, Player, NovoBoard, IdPeca, NcasasEscolhidas, Orientacao) :-
+jogada_movimento(Board, X, Y, NovoBoard, NcasasEscolhidas, Orientacao) :-
 					mover_peca(Board, X, Y, Orientacao, NovoBoard, NcasasEscolhidas).
 
 valida_orientacaoPossivel(Board, X, Y, Orientacao, Jogador) :-
