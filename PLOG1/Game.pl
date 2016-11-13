@@ -8,6 +8,7 @@
 :- include('Interface.pl').
 :- include('Utils.pl').
 :- include('Menus.pl').
+:- include('Bot.pl').
 
 
 % Implementação jogo
@@ -69,12 +70,8 @@ joga(3)	:- 			ModoJogo is 3,
 					assert(board(Default)),
 					retract(player(_)),
 					assert(player(DefaultPlayer)).
-%joga(ModoJogo, Board, Player, IdPeca, NovoBoard) :-
-%					((ModoJogo = 1, jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard)),
-%					(ModoJogo = 2, Player = 1, write('Jogo HUMANO X BOT\n')),%jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard)),
-%					(ModoJogo = 2, Player = 2, IdPeca is 1, write('Vez do Bot Jogar\n')),
-%					(ModoJogo = 3, IdPeca is 4, write('Jogo BOT X BOT\n'))).
 
+					
 escolhe_jogador(ModoJogo, Player, Board, IdPeca, NovoBoard) :-
 				((ModoJogo =:= 1, jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard));
 				 (ModoJogo =:= 2, Player =:= 1, jogador_Humano( Player, Board, IdPeca, NovoBoard));
@@ -90,37 +87,7 @@ jogador_Bot( Player, Board,IdPeca, NovoBoard) :-
 				menu_turnoJogador(Player),nl,
 				read_Bot(Board, X, Y, Player, TipoMove),
 				faz_jogada_bot(Board, X, Y, TipoMove, Player, NovoBoard, IdPeca).
-				
 
-read_Bot(Board, X, Y, Player, TipoMove) :-
-							% Ver se peça corresponde ao jogador
-				repeat,
-							once(create_coordenadas_bot(X,Y)),
-							once(get_bitPeca(Board, X, Y, 5, Bit)),
-							once(convertPlayer(Bit, P)),
-				valida_escolhaPeca(X, Y, Player, P),
-							write('X: '), write(X),write(' Y: '), write(Y),nl,
-							repeat,
-							once(create_tipoJogada_bot(TipoMove)),
-				valida_Movimento(TipoMove).
-				
-				
-create_coordenadas_bot(X,Y) :-
-							random(0,10, XAntes),
-							X is XAntes*2,
-							random(0,10, Yantes),
-							Y is Yantes*2.
-	
-create_tipoJogada_bot(TipoMove):-
-							random(0,2,MoveAntes),
-							TipoMove is MoveAntes.
-	
-pode_mover(Board, Xantes, Yantes, NumeroCasas, Jogador, IdPeca, Orientacao) :-
-	get_novas_coordenadas(Orientacao, Xantes, Yantes, X, Y, NumeroCasas),
-	valida_coordenada(X, Y),!,
-	get_casa(Board, X, Y, NovaCasa),
-	verifica_casaJogador(Board, X, Y, Orientacao, Jogador, NovaCasa, IdPeca),!.
-	
 % 			Predicados responsáveis por uma jogada
 faz_jogada(Board, X, Y, 0, _Jogador, NovoBoard, IdPeca) :-
 					jogada_rotacao(Board, X, Y, NovoBoard, IdPeca).
@@ -172,17 +139,7 @@ read_numeroCasas_Bot(Board, X, Y, NcasasEscolhidas,Jogador, Orientacao) :-
 				write('Direction of the move: '), convertOrientacao(OrientacaoLetra, Orientacao),
 				write(OrientacaoLetra),nl.
 
-create_numeroCasa_Bot(NcasasPossiveis, NcasasEscolhidas):-
-							Maximo is NcasasPossiveis + 1,
-							random(1,Maximo,NCasasAntes),
-							NcasasEscolhidas is NCasasAntes,
-							write('Numero casas: ' ),write(NcasasEscolhidas),nl.
-					
-create_orientacao_Bot(Orientacao):-
-							random(1,9,OrientacaoAntes),
-							((OrientacaoAntes =< 4, Orientacao is OrientacaoAntes );
-							(OrientacaoAntes >= 5, Orientacao is OrientacaoAntes + 1)).
-					
+
 %				Quando escolhe fazer rotação
 jogada_rotacao(Board, X, Y, NovoBoard, IdPeca) :-
 					IdPeca is 1,
@@ -204,10 +161,6 @@ jogada_rotacao_bot(Board,X,Y,NovoBoard,IdPeca):-
 %				Quando escolhe fazer um movimento
 jogada_movimento(Board, X, Y, NovoBoard, NcasasEscolhidas, Orientacao) :-
 					mover_peca(Board, X, Y, Orientacao, NovoBoard, NcasasEscolhidas).
-
-valida_orientacaoPossivel(Board, X, Y, Orientacao, Jogador) :-
-					valida_orientacao(Orientacao),
-					verificar_bitOrientacao(Board, X, Y, Orientacao, Jogador).
 
 atualiza_jogador(Player) :-
 					((Player =:= 1, assert(player(2)));
