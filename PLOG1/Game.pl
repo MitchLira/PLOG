@@ -9,22 +9,23 @@
 :- include('Utils.pl').
 :- include('Menus.pl').
 :- include('Bot.pl').
+:- include('Intelligence.pl').
 
 
 % Implementação jogo
 
 ploy :-
-					menu_inicial(ModoJogo,Nivel),
-					joga(ModoJogo, Nivel).
+					menu_inicial(ModoJogo),
+					joga(ModoJogo).
 
-joga(1, _Nivel) :-  ModoJogo is 1,
+joga(1) :-      	ModoJogo is 1,
 					player(DefaultPlayer),
 					board(Default),
 					repeat,
 									once(retract(board(Board))),
 									once(displayBoard(Board)),
 									once(retract(player(Player))),
-									once(escolhe_jogador(ModoJogo,Nivel, Player, Board, IdPeca, NovoBoard)),
+									once(escolhe_jogador(ModoJogo, Player, Board, IdPeca, NovoBoard)),
 									once(atualiza_jogador(Player)),
 									once(assert(board(NovoBoard))),
 					fim_deJogo(IdPeca),
@@ -35,14 +36,14 @@ joga(1, _Nivel) :-  ModoJogo is 1,
 					retract(player(_)),
 					assert(player(DefaultPlayer)).
 
-joga(2,Nivel)	:- 	ModoJogo is 2,
+joga(2)	:- 			ModoJogo is 2,
 					player(DefaultPlayer),
 					board(Default),
 					repeat,
 									once(retract(board(Board))),
 									once(displayBoard(Board)),
 									once(retract(player(Player))),
-									once(escolhe_jogador(ModoJogo,Nivel, Player, Board, IdPeca, NovoBoard)),
+									once(escolhe_jogador(ModoJogo, Player, Board, IdPeca, NovoBoard)),
 									once(atualiza_jogador(Player)),
 									once(assert(board(NovoBoard))),
 					fim_deJogo(IdPeca),
@@ -53,14 +54,14 @@ joga(2,Nivel)	:- 	ModoJogo is 2,
 					retract(player(_)),
 					assert(player(DefaultPlayer)).
 					
-joga(3, Nivel)	:- 	ModoJogo is 3,
+joga(3)	:- 			ModoJogo is 3,
 					player(DefaultPlayer),
 					board(Default),
 					repeat,
 									once(retract(board(Board))),
 									once(displayBoard(Board)),
 									once(retract(player(Player))),
-									once(escolhe_jogador(ModoJogo,Nivel, Player, Board, IdPeca, NovoBoard)),
+									once(escolhe_jogador(ModoJogo, Player, Board, IdPeca, NovoBoard)),
 									once(atualiza_jogador(Player)),
 									once(assert(board(NovoBoard))),
 					fim_deJogo(IdPeca),
@@ -72,21 +73,21 @@ joga(3, Nivel)	:- 	ModoJogo is 3,
 					assert(player(DefaultPlayer)).
 
 					
-escolhe_jogador(ModoJogo,Nivel, Player, Board, IdPeca, NovoBoard) :-
-				((ModoJogo =:= 1, jogador_Humano(Player, Board, IdPeca, NovoBoard));
+escolhe_jogador(ModoJogo, Player, Board, IdPeca, NovoBoard) :-
+				((ModoJogo =:= 1, jogador_Humano(ModoJogo, Player, Board, IdPeca, NovoBoard));
 				 (ModoJogo =:= 2, Player =:= 1, jogador_Humano( Player, Board, IdPeca, NovoBoard));
-				 (ModoJogo =:= 2, Player =:= 2, jogador_Bot(Player,Nivel, Board, IdPeca, NovoBoard));
-				 (ModoJogo =:= 3, jogador_Bot( Player,Nivel, Board, IdPeca, NovoBoard))).
+				 (ModoJogo =:= 2, Player =:= 2, jogador_Bot(Player, Board, IdPeca, NovoBoard));
+				 (ModoJogo =:= 3, jogador_Bot( Player, Board, IdPeca, NovoBoard))).
 	
 jogador_Humano(Player, Board, IdPeca, NovoBoard) :-
 					menu_turnoJogador(Player), nl,
 					read_utilizador(Board, X, Y, Player, TipoMove),
 					faz_jogada(Board, X, Y, TipoMove, Player, NovoBoard, IdPeca).
 					
-jogador_Bot( Player,Nivel, Board,IdPeca, NovoBoard) :-
+jogador_Bot( Player, Board,IdPeca, NovoBoard) :-
 				menu_turnoJogador(Player),nl,
 				read_Bot(Board, X, Y, Player, TipoMove),
-				faz_jogada_bot(Nivel,Board, X, Y, TipoMove, Player, NovoBoard, IdPeca).
+				faz_jogada_bot(Board, X, Y, TipoMove, Player, NovoBoard, IdPeca).
 
 % 			Predicados responsáveis por uma jogada
 faz_jogada(Board, X, Y, 0, _Jogador, NovoBoard, IdPeca) :-
@@ -104,13 +105,13 @@ faz_jogada(Board, X, Y, 1, Jogador, NovoBoard, IdPeca) :-
 
 	
 	
-faz_jogada_bot(Nivel,Board, X, Y, 0, _Jogador, NovoBoard, IdPeca) :-
+faz_jogada_bot(Board, X, Y, 0, _Jogador, NovoBoard, IdPeca) :-
 					write('Move: '),convertMove(MoveLetra, 0), write(MoveLetra),nl,
-					(Nivel =:= 1, jogada_rotacao_bot(Board, X, Y, NovoBoard, IdPeca)).	
+					jogada_rotacao_bot(Board, X, Y, NovoBoard, IdPeca).	
 
-faz_jogada_bot(Nivel,Board, X, Y, 1, Jogador, NovoBoard, IdPeca) :-
+faz_jogada_bot(Board, X, Y, 1, Jogador, NovoBoard, IdPeca) :-
 	write('Move: '),convertMove(MoveLetra, 1), write(MoveLetra),nl,
-	(Nivel =:= 1, read_numeroCasas_Bot(Board, X, Y, NcasasEscolhidas,Jogador, Orientacao)),
+	read_numeroCasas_Bot(Board, X, Y, NcasasEscolhidas,Jogador, Orientacao),
 	(
 		(pode_mover(Board, X, Y, NcasasEscolhidas, Jogador, IdPeca, Orientacao),
 		jogada_movimento(Board, X, Y, NovoBoard, NcasasEscolhidas, Orientacao))

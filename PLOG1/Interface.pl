@@ -46,10 +46,7 @@ read_orientacao(Ori) :-
 							write('se\n'),
 							read(Orientacao),
 							convertOrientacao(Orientacao, Ori).
-							
 
-							
-							
 %		Predicado que verifica se a peça pertence ao jogador
 valida_escolhaPeca(X, Y, Player, Bit) :-
 							valida_coordenada(X, Y),
